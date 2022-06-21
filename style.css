@@ -1,0 +1,172 @@
+*{
+
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffecda
+
+}
+
+body *{
+
+    cursor: url(ponteiro.png), auto;
+
+}
+
+.container{
+
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-image: url(fundo.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+
+}
+
+.box{
+
+    display: flex;
+    flex-direction: column;
+    border: inset;
+    border-width: 0.2cm;
+    border-color: rgb(77, 24, 0);
+    width: 700px;
+    height: 700px;
+    background-color: rgba(92, 34, 0, 0.849);
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+#Titulo{
+
+    display: block;
+    padding: 20px;
+
+}
+
+input{
+
+    background-color: rgb(109, 60, 39);
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+select{
+
+    background-color: rgb(109, 60, 39);
+
+}
+
+.CaixaDigitacao{
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+
+}
+
+.CaixaDigitacao label{
+
+    font-weight: bold;
+    margin-right: 5px;
+    padding:5px;
+
+}
+
+.CaixaDigitacao input,select{
+
+    font-weight: bold;
+    width: 100px;
+    height: 25px;
+    font-size: 15px;
+
+}
+
+#AjusteDaBox{
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width:400px;
+    align-items: center;
+
+}
+
+.CaixaDeBotoes{
+
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+
+}
+
+#idBotaoGuardar{
+
+    width: 180px;
+    height: 50px;
+    font-size: 16px;
+
+}
+
+#idMostrarResultado{
+
+    width: 180px;
+    height: 50px;
+    font-size: 16px;
+
+}
+
+.CaixaDeStatus{
+
+    margin-bottom: 30px;
+
+}
+
+#idStatus{
+
+    font-weight: bold;
+    width: 320px;
+    height: 25px;
+    font-size: 15px;
+    margin-top: 50px;
+    text-align: center;
+
+}
+
+.CaixaResultado{
+
+    margin:30px;
+
+}
+
+#idResultado{
+
+    font-weight: bold;
+    font-size: 15px;
+    resize: none;
+    background-color: rgb(109, 60, 39);
+
+}
+
+.alerta{
+
+    color: red;
+
+}

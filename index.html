@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Desafio - Software para Pizza</title>
+    </head>
+    <body>
+
+        <form action="" method="get">
+
+            <div class="container">
+
+                <div class="box">
+
+                    <div id="Titulo">
+                        <h1>Calcular valores das pizzas</h1>
+                    </div>
+
+                    <div id="AjusteDaBox">
+
+                        <div class="CaixaDigitacao">
+
+                            <label for="idNomePizza" id="idLbNome">Escolha qual o tamanho da pizza</label>
+                            <select id="idNomePizza" name="nmNomePizza">
+                                <option value="Broto">Broto</option>
+                                <option value="Pequena">Pequena</option>
+                                <option value="Media" selected>Média</option>
+                                <option value="Grande" >Grande</option>
+                                <option value="Gigante" >Gigante</option>
+                            </select>
+
+                        </div>
+
+                        <div class="CaixaDigitacao">
+
+                            <label for="idTamanho">Informe o diâmetro da pizza (em centímetros)</label>
+                            <input
+                                id="idTamanho"
+                                type="number"
+                                name="nmTamanho">
+                            
+                        </div>
+
+                        <div class="CaixaDigitacao">
+
+                            <label for="idPreco">Informe o preço em R$</label>
+                            <input
+                                id="idPreco"
+                                type="number"
+                                name="nmPreco">
+
+                        </div>
+
+                        <div class="CaixaDeStatus">
+
+                            <input
+                                id="idStatus"
+                                name="nmStatus"
+                                type="text"
+                                readonly>
+
+                        </div>
+
+                    </div>                    
+
+                    <div class="CaixaDeBotoes">
+
+                        <div class="Botao">
+                            <input
+                                id="idBotaoGuardar"
+                                type="button"
+                                value="Guardar Informações"
+                                onclick="guardarInformacoes()">
+                        </div>
+
+                        <div class="Botao">
+                            <input
+                                id="idMostrarResultado"
+                                type="button"
+                                value="Mostrar Informações"
+                                onclick="mostrarInformacoes()">
+                        </div>
+
+                    </div>
+
+                    <div class="CaixaResultado">
+
+                        <div>
+                            <textarea
+                                id="idResultado"
+                                name="nmResultado"
+                                cols="40"
+                                rows="5"
+                                readonly>
+                            </textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        
+        </form>
+
+        <script>
+
+            //--------------------------------------------------------------- \\ Declaração de variáveis // ---------------------------------------------------------------\\
+
+            const modeloPizza = document.getElementById("idNomePizza").value;
+            const tamanhoPizza = document.getElementById("idTamanho").value;
+            const precoPizza = document.getElementById("idPreco").value;
+
+            //------------------------------------------------------------ \\ Função para inicializar o programa // --------------------------------------------------------\\
+
+            iniciar();
+
+            //-------------------------------------------- \\ Função para alimentar as arrays com informações do usuário // -------------------------------------------------\\
+
+            botaoGuardar.onclick = function() {
+
+                let isTelaValida = consistirTela();
+
+                if (isTelaValida) {
+
+                    cadastrar();
+
+                }
+
+            }
+
+            //--------------------------------------------------------------- \\ Funções para cadastrar informações // ------------------------------------------------------\\
+
+
+            function cadastrar(){
+
+                if (cont > 0){
+
+                    let entradaNome = document.getElementById("idNome").value;
+                    let escolhaGenero = document.querySelector('input[name=nmGenero]:checked').value;
+                    let entradaSalario = Number(document.getElementById("idSalario").value);
+                    nomes.push(entradaNome);
+                    generos.push(escolhaGenero);
+                    salarios.push(entradaSalario);
+                    console.log(nomes);
+                    console.log(generos);
+                    console.log(salarios);
+                    contSalario++;
+                    cont--;                    
+                    aviso.value = "Cadastro Realizado com sucesso!";
+                    aumentarLabels();
+                    limparTelas();
+                    
+                }
+                    
+
+                if (contSalario == 5) {
+
+                    travarCaixas();
+                    console.log(contSalario);
+
+                }
+            }
+
+            //--------------------------------------------------- \\ Funções de controle de labels e caixas de digitação // -------------------------------------------------\\
+
+            function aumentarLabels(){
+                
+                document.getElementById("idLbNome").innerText = "Digite o nome da "+ (contSalario + 1) +"ª pessoa";
+                document.getElementById("idLbSalario").innerText = "Digite o salário da "+ (contSalario + 1) +"ª pessoa"; 
+
+            }
+
+            function limparTelas(){
+
+                document.getElementById("idNome").value = ""; //Zera o conteúdo do input cada vez que a função é chamada
+                document.getElementById("idSalario").value = ""; //Zera o conteúdo do input cada vez que a função é chamada1ª pessoa
+
+            }
+
+            function travarCaixas(){
+
+                document.getElementById("idBotaoGuardar").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
+                document.getElementById("idNome").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
+                document.getElementById("idSalario").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
+                document.getElementById("idLbNome").innerText = "Digite o nome da 5ª pessoa";// Repete a label em 10 para não passar para 11, sendo que começa em 0;
+                document.getElementById("idLbSalario").innerText = "Digite o salário da 5ª pessoa";// Repete a label em 10 para não passar para 11, sendo que começa em 0;
+                
+            }
+
+            //------------------------------------------------------------- \\ Função rotina para inicialização // ---------------------------------------------------------\\
+
+            function iniciar(){
+
+                botaoGuardar = document.getElementById("idBotaoGuardar");
+                botaoMostrar = document.getElementById("idMostrarResultado");
+                aviso = document.getElementById("idStatus");
+                resultado = document.getElementById("idResultado");
+                limparTelas();
+
+            }
+
+            //--------------------------------------------------------- \\ Função para verificar valores inseridos // ---------------------------------------------------------\\
+
+            function consistirTela(){
+
+                let nome = document.getElementById("idNome").value;
+                let salario = document.getElementById("idSalario").value;
+
+                if (nome == "" || nome == " ") {
+
+                    aviso.value = "Preenchimento obrigatório: Campo Nome";
+                    aviso.classList.add("alerta");
+                    document.getElementById("idNome").focus();                  
+                    return false;
+
+                }
+
+                if (salario == "" || salario == " ") {
+
+                    aviso.value = "Preenchimento obrigatório: Campo Salário";
+                    aviso.classList.add("alerta");
+                    document.getElementById("idSalario").focus();
+                    return false;
+
+                }
+
+                aviso.classList.remove("alerta");
+                return true;
+
+            }
+
+            //------------------------------------------------------------- \\ Função filtrar salários // -------------------------------------------------------------------\\
+
+            function limitarSalario(limiteSalario){
+                let salariosFiltrados = [];
+
+                salarios.forEach(function(salario,index) {
+
+                    if (salario > limiteSalario ) {
+                        salariosFiltrados.push(index);
+                    }
+
+                });
+
+                return salariosFiltrados;
+
+            }
+
+            //------------------------------------------------------- \\ Função mostrar resultado na tela // ----------------------------------------------------------------\\
+
+            botaoMostrar.onclick = function() {
+
+                let salariosFiltrados = limitarSalario(5000);
+
+                resultado.value = "Mulheres com salários acima dos R$5.000,00:";
+
+                salariosFiltrados.forEach(e =>{
+                    if(generos[e] == "Feminino"){
+                        resultado.value = resultado.value + "("+ nomes[e] + ": R$"+ salarios[e] +")";
+                    } else {
+                        resultado.value = "Não há funcionárias do sexo Feminino!"
+                    }
+                })
+            }
+
+        </script>
+    </body>
+</html>
