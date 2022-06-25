@@ -9,17 +9,17 @@
     </head>
     <body>
 
-        <form action="" method="get">
+        <form id="idInfosFormulario" action="" method="get">
 
             <div class="container1">
 
-                <div class="box1">
-
-                    <div id="Titulo">
-                        <h1>Calcular valores das pizzas</h1>
-                    </div>
+                <div class="box1">                    
 
                     <div id="AjusteDaBox1">
+
+                        <div id="Titulo">
+                            <h1>Calcular valores das pizzas</h1>
+                        </div>
 
                         <div class="CaixaDigitacao">
 
@@ -83,20 +83,6 @@
 
                     </div>
 
-                    <div class="CaixaResultado">
-
-                        <div>
-                            <textarea
-                                id="idResultado"
-                                name="nmResultado"
-                                cols="40"
-                                rows="5"
-                                readonly>
-                            </textarea>
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
@@ -113,41 +99,19 @@
 
                     <div id="AjusteDaBox2">
 
-                        <table class="tbClUsuarios" id="tbIdUsuarios">
-                            <thead id="thIdUsuarios">
-                                <tr class="trClUsuario">
-                                    <th class="thClInfoUserId">Nome</th>
-                                    <th class="thClInfoSenha">Tam.(cm)</th>
-                                    <th class="thClInfoNome">Preço</th>
-                                    <th class="thClInfoCpf">R$ p/cm²</th>
-                                    <th class="thClInfoTipoUser">Diferença%</th>
+                        <table class="tbClPizzas" id="tbIdPizzas">
+                            <thead id="thIdPizzas">
+                                <tr class="trClPizzas">
+                                    <th class="thClNomePizza">Nome</th>
+                                    <th class="thClTamanhoPizza">Tam.(cm)</th>
+                                    <th class="thClPrecoPizza">Preço</th>
+                                    <th class="thClPrecoPCmQ">R$ p/cm²</th>
+                                    <th class="thClDiferencaEmPorc">Diferença%</th>
                                 </tr>
                             </thead>
                             <tbody id="tboIdLinha">
-                                <tr class="trClUsuarioData">
-                                    <!--Linha 1-->
-                                    <td class="tdClInfoUserId">IvanJB</td>
-                                    <td class="tdClInfoSenha">Teste123</td>
-                                    <td class="tdClInfoNome">Ivan J. Borchardt</td>
-                                    <td class="tdClInfoCpf">004.742.879-12</td>
-                                    <td class="tdClInfoTipoUser">Desenvolvedor</td>
-                                </tr>
-                                <tr class="trClUsuarioData">
-                                    <!--Linha 2-->
-                                    <td class="tdClInfoUserId">JoaoTB</td>
-                                    <td class="tdClInfoSenha">Teste123</td>
-                                    <td class="tdClInfoNome">Joao Alberto</td>
-                                    <td class="tdClInfoCpf">004.742.879-15</td>
-                                    <td class="tdClInfoTipoUser">Desenvolvedor</td>
-                                </tr>
-                                <tr class="trClUsuarioData">
-                                    <!--Linha 3-->
-                                    <td class="tdClInfoUserId">MarianaS</td>
-                                    <td class="tdClInfoSenha">Teste123</td>
-                                    <td class="tdClInfoNome">Mariana Silveira</td>
-                                    <td class="tdClInfoCpf">004.742.879-16</td>
-                                    <td class="tdClInfoTipoUser">Administrador</td>
-                                </tr>
+                                
+                                
                             </tbody>
                              
                         </table>
@@ -164,9 +128,10 @@
 
             //--------------------------------------------------------------- \\ Declaração de variáveis // ---------------------------------------------------------------\\
 
-            const modeloPizza = document.getElementById("idNomePizza").value;
-            const tamanhoPizza = document.getElementById("idTamanho").value;
-            const precoPizza = document.getElementById("idPreco").value;
+            //const modeloPizza = document.getElementById("idNomePizza").value;
+            //const tamanhoPizza = document.getElementById("idTamanho").value;
+            //const precoPizza = document.getElementById("idPreco").value;
+            var pizzas = [[]]
 
             //------------------------------------------------------------ \\ Função para inicializar o programa // --------------------------------------------------------\\
 
@@ -184,49 +149,40 @@
 
                 }
 
+                //capturar o formulario completo 
+                var formulario = document.querySelector("#idInfosFormulario")
+
+                //Extrair dados do formulario 
+                var pizzas = pesquisarPizza(formulario)
+
+                //Criar nova linha para a tabela 
+                var pizzasAdLinha = adicionaLinha(pizzas)
+
+                //Adicionar a linha na tabela 
+                var corpoTabela = document.getElementById("tboIdLinha")
+                corpoTabela.appendChild(pizzasAdLinha)
+
             }
 
             //--------------------------------------------------------------- \\ Funções para cadastrar informações // ------------------------------------------------------\\
 
+            //Extraindo dados do Formulário através do name
 
-            function cadastrar(){
+            function pesquisarPizza(formulario) {
 
-                if (cont > 0){
+                let pizzas = {
 
-                    let entradaNome = document.getElementById("idNome").value;
-                    let escolhaGenero = document.querySelector('input[name=nmGenero]:checked').value;
-                    let entradaSalario = Number(document.getElementById("idSalario").value);
-                    nomes.push(entradaNome);
-                    generos.push(escolhaGenero);
-                    salarios.push(entradaSalario);
-                    console.log(nomes);
-                    console.log(generos);
-                    console.log(salarios);
-                    contSalario++;
-                    cont--;                    
-                    aviso.value = "Cadastro Realizado com sucesso!";
-                    aumentarLabels();
-                    limparTelas();
-                    
-                }
-                    
-
-                if (contSalario == 5) {
-
-                    travarCaixas();
-                    console.log(contSalario);
+                    nome : formulario.nmNomePizza.value,
+                    tamanho : formulario.nmTamanho.value, 
+                    preco : formulario.nmPreco.value
 
                 }
-            }
+
+                return pizzas
+
+            }            
 
             //--------------------------------------------------- \\ Funções de controle de labels e caixas de digitação // -------------------------------------------------\\
-
-            function aumentarLabels(){
-                
-                document.getElementById("idLbNome").innerText = "Digite o nome da "+ (contSalario + 1) +"ª pessoa";
-                document.getElementById("idLbSalario").innerText = "Digite o salário da "+ (contSalario + 1) +"ª pessoa"; 
-
-            }
 
             function limparTelas(){
 
@@ -238,10 +194,9 @@
             function travarCaixas(){
 
                 document.getElementById("idBotaoGuardar").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
-                document.getElementById("idNome").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
-                document.getElementById("idSalario").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
-                document.getElementById("idLbNome").innerText = "Digite o nome da 5ª pessoa";// Repete a label em 10 para não passar para 11, sendo que começa em 0;
-                document.getElementById("idLbSalario").innerText = "Digite o salário da 5ª pessoa";// Repete a label em 10 para não passar para 11, sendo que começa em 0;
+                document.getElementById("idNomePizza").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
+                document.getElementById("idTamanho").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
+                document.getElementById("idPreco").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
                 
             }
 
@@ -252,7 +207,6 @@
                 botaoGuardar = document.getElementById("idBotaoGuardar");
                 botaoMostrar = document.getElementById("idMostrarResultado");
                 aviso = document.getElementById("idStatus");
-                resultado = document.getElementById("idResultado");
                 limparTelas();
 
             }
@@ -261,23 +215,33 @@
 
             function consistirTela(){
 
-                let nome = document.getElementById("idNome").value;
-                let salario = document.getElementById("idSalario").value;
+                let nome = document.getElementById("idNomePizza").value;
+                let tamanho = document.getElementById("idTamanho").value;
+                let preco = Number(document.getElementById("idPreco").value);
 
                 if (nome == "" || nome == " ") {
 
                     aviso.value = "Preenchimento obrigatório: Campo Nome";
                     aviso.classList.add("alerta");
-                    document.getElementById("idNome").focus();                  
+                    document.getElementById("idNomePizza").focus();                  
                     return false;
 
                 }
 
-                if (salario == "" || salario == " ") {
+                if (tamanho == "" || tamanho == " ") {
 
-                    aviso.value = "Preenchimento obrigatório: Campo Salário";
+                    aviso.value = "Preenchimento obrigatório: Campo tamanho";
                     aviso.classList.add("alerta");
-                    document.getElementById("idSalario").focus();
+                    document.getElementById("idTamanho").focus();
+                    return false;
+
+                }
+
+                if (preco == "" || preco == " ") {
+
+                    aviso.value = "Preenchimento obrigatório: Campo preco";
+                    aviso.classList.add("alerta");
+                    document.getElementById("idPreco").focus();
                     return false;
 
                 }
@@ -304,21 +268,33 @@
 
             }
 
-            //------------------------------------------------------- \\ Função mostrar resultado na tela // ----------------------------------------------------------------\\
+            //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
 
-            botaoMostrar.onclick = function() {
+            //Cria uma linha (um tr)
+            function adicionaLinha(pizzas){
 
-                let salariosFiltrados = limitarSalario(5000);
+                let pizzasAdLinha = document.createElement("tr")
+            
+                pizzasAdLinha.classList.add("trClPizzaUsuario")
+                pizzasAdLinha.appendChild(adicionaColuna(pizzas.nome, "tdClNomePizza")) 
+                pizzasAdLinha.appendChild(adicionaColuna(pizzas.tamanho, "tdClTamanhoPizza"))   
+                pizzasAdLinha.appendChild(adicionaColuna(pizzas.preco, "tdClPrecoPizza"))   
+                pizzasAdLinha.appendChild(adicionaColuna(pizzas.precoPCmQ, "tdClPrecoPCmQ"))   
+                pizzasAdLinha.appendChild(adicionaColuna(pizzas.diferencaEmPorc, "tdClDiferencaEmPorc"))
 
-                resultado.value = "Mulheres com salários acima dos R$5.000,00:";
+                return pizzasAdLinha
 
-                salariosFiltrados.forEach(e =>{
-                    if(generos[e] == "Feminino"){
-                        resultado.value = resultado.value + "("+ nomes[e] + ": R$"+ salarios[e] +")";
-                    } else {
-                        resultado.value = "Não há funcionárias do sexo Feminino!"
-                    }
-                })
+            }
+
+            //Cria uma coluna (um td)
+            function adicionaColuna(dado, classe) {
+
+                let pizzasAdColuna = document.createElement("td")
+                pizzasAdColuna.textContent = dado
+                pizzasAdColuna.classList.add(classe)
+                
+                return usuarioTd
+
             }
 
         </script>
