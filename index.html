@@ -11,27 +11,24 @@
 
         <form action="" method="get">
 
-            <div class="container">
+            <div class="container1">
 
-                <div class="box">
+                <div class="box1">
 
                     <div id="Titulo">
                         <h1>Calcular valores das pizzas</h1>
                     </div>
 
-                    <div id="AjusteDaBox">
+                    <div id="AjusteDaBox1">
 
                         <div class="CaixaDigitacao">
 
-                            <label for="idNomePizza" id="idLbNome">Escolha qual o tamanho da pizza</label>
-                            <select id="idNomePizza" name="nmNomePizza">
-                                <option value="Broto">Broto</option>
-                                <option value="Pequena">Pequena</option>
-                                <option value="Media" selected>Média</option>
-                                <option value="Grande" >Grande</option>
-                                <option value="Gigante" >Gigante</option>
-                            </select>
-
+                            <label for="idNomePizza">Informe o nome da pizza</label>
+                            <input
+                                id="idNomePizza"
+                                type="text"
+                                name="nmNomePizza">
+                            
                         </div>
 
                         <div class="CaixaDigitacao">
@@ -103,7 +100,64 @@
                 </div>
 
             </div>
-        
+
+<!---------------------------------------------------------------------------------------- Segunda Página ---------------------------------------------------------------------->
+
+            <div class="container2">
+
+                <div class="box2">
+
+                    <div id="Titulo">
+                        <h1>Calcular valores das pizzas</h1>
+                    </div>
+
+                    <div id="AjusteDaBox2">
+
+                        <table class="tbClUsuarios" id="tbIdUsuarios">
+                            <thead id="thIdUsuarios">
+                                <tr class="trClUsuario">
+                                    <th class="thClInfoUserId">Nome</th>
+                                    <th class="thClInfoSenha">Tam.(cm)</th>
+                                    <th class="thClInfoNome">Preço</th>
+                                    <th class="thClInfoCpf">R$ p/cm²</th>
+                                    <th class="thClInfoTipoUser">Diferença%</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tboIdLinha">
+                                <tr class="trClUsuarioData">
+                                    <!--Linha 1-->
+                                    <td class="tdClInfoUserId">IvanJB</td>
+                                    <td class="tdClInfoSenha">Teste123</td>
+                                    <td class="tdClInfoNome">Ivan J. Borchardt</td>
+                                    <td class="tdClInfoCpf">004.742.879-12</td>
+                                    <td class="tdClInfoTipoUser">Desenvolvedor</td>
+                                </tr>
+                                <tr class="trClUsuarioData">
+                                    <!--Linha 2-->
+                                    <td class="tdClInfoUserId">JoaoTB</td>
+                                    <td class="tdClInfoSenha">Teste123</td>
+                                    <td class="tdClInfoNome">Joao Alberto</td>
+                                    <td class="tdClInfoCpf">004.742.879-15</td>
+                                    <td class="tdClInfoTipoUser">Desenvolvedor</td>
+                                </tr>
+                                <tr class="trClUsuarioData">
+                                    <!--Linha 3-->
+                                    <td class="tdClInfoUserId">MarianaS</td>
+                                    <td class="tdClInfoSenha">Teste123</td>
+                                    <td class="tdClInfoNome">Mariana Silveira</td>
+                                    <td class="tdClInfoCpf">004.742.879-16</td>
+                                    <td class="tdClInfoTipoUser">Administrador</td>
+                                </tr>
+                            </tbody>
+                             
+                        </table>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+
         </form>
 
         <script>
