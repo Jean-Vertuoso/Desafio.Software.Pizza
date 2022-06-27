@@ -100,18 +100,27 @@
                     <div id="AjusteDaBox2">
 
                         <table class="tbClPizzas" id="tbIdPizzas">
+                            
                             <thead id="thIdPizzas">
+
                                 <tr class="trClPizzas">
+
                                     <th class="thClNomePizza">Nome</th>
                                     <th class="thClTamanhoPizza">Tam.(cm)</th>
                                     <th class="thClPrecoPizza">Preço</th>
                                     <th class="thClPrecoPCmQ">R$ p/cm²</th>
                                     <th class="thClDiferencaEmPorc">Diferença%</th>
+                                    
                                 </tr>
+
                             </thead>
+
                             <tbody id="tboIdLinha">
-                                
-                                
+
+                                <tr class="trClPizzaUsuario">
+
+                                </tr>
+
                             </tbody>
                              
                         </table>
@@ -127,11 +136,12 @@
         <script>
 
             //--------------------------------------------------------------- \\ Declaração de variáveis // ---------------------------------------------------------------\\
-
-            //const modeloPizza = document.getElementById("idNomePizza").value;
-            //const tamanhoPizza = document.getElementById("idTamanho").value;
-            //const precoPizza = document.getElementById("idPreco").value;
-            var pizzas = [[]]
+            
+            var pizzas = [];
+            var formulario = document.querySelector("#idInfosFormulario")
+            var preco = Number(document.getElementById("idPreco").value);
+            var precoPCm2, raio, area = 0;
+            var contLinha = 0;
 
             //------------------------------------------------------------ \\ Função para inicializar o programa // --------------------------------------------------------\\
 
@@ -145,22 +155,20 @@
 
                 if (isTelaValida) {
 
-                    cadastrar();
+                    pesquisarPizza();
 
                 }
 
-                //capturar o formulario completo 
-                var formulario = document.querySelector("#idInfosFormulario")
-
-                //Extrair dados do formulario 
-                var pizzas = pesquisarPizza(formulario)
-
                 //Criar nova linha para a tabela 
-                var pizzasAdLinha = adicionaLinha(pizzas)
+                //var pizzasAdLinha = adicionaLinha()
 
                 //Adicionar a linha na tabela 
-                var corpoTabela = document.getElementById("tboIdLinha")
-                corpoTabela.appendChild(pizzasAdLinha)
+                //var corpoTabela = document.getElementById("tboIdLinha")
+                //corpoTabela.appendChild(pizzasAdLinha)
+
+                //resetar formulario
+                formulario.reset()
+                organizarTabela()
 
             }
 
@@ -168,28 +176,24 @@
 
             //Extraindo dados do Formulário através do name
 
-            function pesquisarPizza(formulario) {
+            function pesquisarPizza(pizza) {
 
-                let pizzas = {
+                var pizza = [];
 
-                    nome : formulario.nmNomePizza.value,
-                    tamanho : formulario.nmTamanho.value, 
-                    preco : formulario.nmPreco.value
+                calcularPrecoPCm2(precoPCm2);
 
-                }
+                    pizza[0] = formulario.nmNomePizza.value;
+                    pizza[1] = formulario.nmTamanho.value;
+                    pizza[2] = formulario.nmPreco.value;
+                    pizza[3] = Number(precoPCm2.toFixed(2));
+                    pizza[4] = 0;
 
-                return pizzas
-
-            }            
-
-            //--------------------------------------------------- \\ Funções de controle de labels e caixas de digitação // -------------------------------------------------\\
-
-            function limparTelas(){
-
-                document.getElementById("idNome").value = ""; //Zera o conteúdo do input cada vez que a função é chamada
-                document.getElementById("idSalario").value = ""; //Zera o conteúdo do input cada vez que a função é chamada1ª pessoa
+                    pizzas.push(pizza);
+                    console.log(pizzas)
 
             }
+
+            //--------------------------------------------------- \\ Funções de controle de labels e caixas de digitação // -------------------------------------------------\\
 
             function travarCaixas(){
 
@@ -207,7 +211,6 @@
                 botaoGuardar = document.getElementById("idBotaoGuardar");
                 botaoMostrar = document.getElementById("idMostrarResultado");
                 aviso = document.getElementById("idStatus");
-                limparTelas();
 
             }
 
@@ -221,7 +224,7 @@
 
                 if (nome == "" || nome == " ") {
 
-                    aviso.value = "Preenchimento obrigatório: Campo Nome";
+                    aviso.value = "Preenchimento inválido: Campo Nome";
                     aviso.classList.add("alerta");
                     document.getElementById("idNomePizza").focus();                  
                     return false;
@@ -230,7 +233,7 @@
 
                 if (tamanho == "" || tamanho == " ") {
 
-                    aviso.value = "Preenchimento obrigatório: Campo tamanho";
+                    aviso.value = "Preenchimento inválido: Campo tamanho";
                     aviso.classList.add("alerta");
                     document.getElementById("idTamanho").focus();
                     return false;
@@ -239,7 +242,7 @@
 
                 if (preco == "" || preco == " ") {
 
-                    aviso.value = "Preenchimento obrigatório: Campo preco";
+                    aviso.value = "Preenchimento inválido: Campo preco";
                     aviso.classList.add("alerta");
                     document.getElementById("idPreco").focus();
                     return false;
@@ -251,39 +254,76 @@
 
             }
 
-            //------------------------------------------------------------- \\ Função filtrar salários // -------------------------------------------------------------------\\
+            //---------------------------------------------------------- \\ Função para calcular preço por tamanho //-----------------=----------------------------------------\\
 
-            function limitarSalario(limiteSalario){
-                let salariosFiltrados = [];
+            function calcularPrecoPCm2(){
 
-                salarios.forEach(function(salario,index) {
+                let raio = 0;
+                let diametro = Number(document.getElementById("idTamanho").value);
+                let area = 0;
+                let preco = Number(document.getElementById("idPreco").value);
 
-                    if (salario > limiteSalario ) {
-                        salariosFiltrados.push(index);
-                    }
+                raio = diametro / 2;
 
-                });
+                area = Math.PI * (raio ** 2);
 
-                return salariosFiltrados;
+                precoPCm2 = preco / area;
 
             }
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
 
+            function organizarTabela(){
+
+                pizzas.sort(function(a, b){
+
+                    if (a[3] > b[3]) {
+                        return 1
+                    }
+
+                    if (a[3] < b[3]) {
+                        return -1
+                    }
+
+                    return 0
+                        
+                })
+
+            }
+
+            //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
+
+            botaoMostrar.onclick = function(){
+
+                //Criar nova linha para a tabela 
+                var pizzasAdLinha = adicionaLinha()
+
+                //Adicionar a linha na tabela 
+                var corpoTabela = document.getElementById("tboIdLinha")
+                corpoTabela.appendChild(pizzasAdLinha)
+
+
+            }
+
+
+            //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
             //Cria uma linha (um tr)
-            function adicionaLinha(pizzas){
-
+            function adicionaLinha(pizza){
+                
                 let pizzasAdLinha = document.createElement("tr")
-            
-                pizzasAdLinha.classList.add("trClPizzaUsuario")
-                pizzasAdLinha.appendChild(adicionaColuna(pizzas.nome, "tdClNomePizza")) 
-                pizzasAdLinha.appendChild(adicionaColuna(pizzas.tamanho, "tdClTamanhoPizza"))   
-                pizzasAdLinha.appendChild(adicionaColuna(pizzas.preco, "tdClPrecoPizza"))   
-                pizzasAdLinha.appendChild(adicionaColuna(pizzas.precoPCmQ, "tdClPrecoPCmQ"))   
-                pizzasAdLinha.appendChild(adicionaColuna(pizzas.diferencaEmPorc, "tdClDiferencaEmPorc"))
 
-                return pizzasAdLinha
+                for (let i = 0; i < pizzas.length; i++) {
+                
+                        pizzasAdLinha.classList.add("trClPizzaUsuario")
+                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][0], "tdClNomePizza")) 
+                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][1], "tdClTamanhoPizza"))   
+                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][2], "tdClPrecoPizza"))   
+                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][3], "tdClPrecoPCmQ"))   
+                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][4], "tdClDiferencaEmPorc"))
 
+                        return pizzasAdLinha;
+
+                }
             }
 
             //Cria uma coluna (um td)
@@ -293,7 +333,7 @@
                 pizzasAdColuna.textContent = dado
                 pizzasAdColuna.classList.add(classe)
                 
-                return usuarioTd
+                return pizzasAdColuna
 
             }
 

@@ -111,7 +111,7 @@ body *{
 
 }
 
-#tbIdUsuarios th{
+#tbIdPizzas th{
 
     border-collapse: separate;
     border: 0.5px solid rgb(112, 0, 0);
@@ -121,8 +121,9 @@ body *{
 
 }
 
-#tbIdUsuarios td{
+#tbIdPizzas td{
 
+    border-collapse: separate;
     border: 0.5px solid rgb(112, 0, 0);
     border-style: outset;
     border-width: medium;
