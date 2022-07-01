@@ -30,6 +30,42 @@
                                 name="nmNomePizza">
                             
                         </div>
+                        
+                        <div>
+
+                            <h4></h4>
+
+                        </div>
+
+                        <div class="CaixaRadios">
+
+                            <div class="PizzaRedonda">
+                                <label for="idRedonda">Redonda</label>
+                                <input
+                                    id="idRedonda"
+                                    type="radio"
+                                    name="nmFormaPizza">
+                            </div>
+    
+                            <div class="PizzaRetangular">
+                                <label for="idRetOuQuad">Quadrada ou Retangular</label>
+                                <input
+                                    id="idRetOuQuad"
+                                    type="radio"
+                                    name="nmFormaPizza">
+                            </div>
+    
+                        </div>   
+
+                        <div class="CaixaDigitacao">
+
+                            <label for="idTamanho">Informe o diâmetro da pizza (em centímetros)</label>
+                            <input
+                                id="idTamanho"
+                                type="number"
+                                name="nmTamanho">
+                            
+                        </div>
 
                         <div class="CaixaDigitacao">
 
@@ -100,28 +136,6 @@
                     <div id="AjusteDaBox2">
 
                         <table class="tbClPizzas" id="tbIdPizzas">
-                            
-                            <thead id="thIdPizzas">
-
-                                <tr class="trClPizzas">
-
-                                    <th class="thClNomePizza">Nome</th>
-                                    <th class="thClTamanhoPizza">Tam.(cm)</th>
-                                    <th class="thClPrecoPizza">Preço</th>
-                                    <th class="thClPrecoPCmQ">R$ p/cm²</th>
-                                    <th class="thClDiferencaEmPorc">Diferença%</th>
-                                    
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="tboIdLinha">
-
-                                <tr class="trClPizzaUsuario">
-
-                                </tr>
-
-                            </tbody>
                              
                         </table>
                         
@@ -141,13 +155,12 @@
             var formulario = document.querySelector("#idInfosFormulario")
             var preco = Number(document.getElementById("idPreco").value);
             var precoPCm2, raio, area = 0;
-            var contLinha = 0;
 
             //------------------------------------------------------------ \\ Função para inicializar o programa // --------------------------------------------------------\\
 
             iniciar();
 
-            //-------------------------------------------- \\ Função para alimentar as arrays com informações do usuário // -------------------------------------------------\\
+            //----------------------------------------------------- \\ Funções para chamar os eventos de click dos botões // -------------------------------------------------\\
 
             botaoGuardar.onclick = function() {
 
@@ -156,21 +169,20 @@
                 if (isTelaValida) {
 
                     pesquisarPizza();
+                    formulario.reset()
+                    organizarTabela()
+                    aviso.value = "Cadastro realizado com sucesso"
 
-                }
-
-                //Criar nova linha para a tabela 
-                //var pizzasAdLinha = adicionaLinha()
-
-                //Adicionar a linha na tabela 
-                //var corpoTabela = document.getElementById("tboIdLinha")
-                //corpoTabela.appendChild(pizzasAdLinha)
-
-                //resetar formulario
-                formulario.reset()
-                organizarTabela()
+                }                
 
             }
+
+            botaoMostrar.onclick = function(){
+
+                adicionaLinha()
+
+            }
+
 
             //--------------------------------------------------------------- \\ Funções para cadastrar informações // ------------------------------------------------------\\
 
@@ -189,7 +201,6 @@
                     pizza[4] = 0;
 
                     pizzas.push(pizza);
-                    console.log(pizzas)
 
             }
 
@@ -270,6 +281,18 @@
                 precoPCm2 = preco / area;
 
             }
+            //---------------------------------------------------------- \\ Função para calcular preço por tamanho //-----------------=----------------------------------------\\
+
+            function mudarLabelsECaixas(){
+
+                let 
+
+
+
+
+
+            }
+
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
 
@@ -293,49 +316,44 @@
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
 
-            botaoMostrar.onclick = function(){
-
-                //Criar nova linha para a tabela 
-                var pizzasAdLinha = adicionaLinha()
-
-                adicionaColuna()
-
-                //Adicionar a linha na tabela 
-                var corpoTabela = document.getElementById("tboIdLinha")
-                corpoTabela.appendChild(pizzasAdLinha)
-
-
-            }
 
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
             //Cria uma linha (um tr)
-            function adicionaLinha(pizza){
+            function adicionaLinha(){
                 
-                let pizzasAdLinha = document.createElement("tr")
+                let tabela = document.getElementById("tbIdPizzas");
+
+                let thead = document.createElement("thead");
+                let tbody = document.createElement("tbody");
+
+                let cabecalho = ["Nome", "Tamanho", "Preço", "Preço p/cm²", "Diferença%"]
+                let linhaCabecalho = document.createElement("tr");
+
+                for (let i = 0; i < cabecalho.length; i++) {
+                    let th = document.createElement("th");
+                    th.textContent = cabecalho[i];
+                    linhaCabecalho.appendChild(th);
+                }
+
+                thead.appendChild(linhaCabecalho)
+                tabela.appendChild(thead);
+                tabela.appendChild(tbody);
 
                 for (let i = 0; i < pizzas.length; i++) {
-                
-                        pizzasAdLinha.classList.add("trClPizzaUsuario")
-                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][0], "tdClNomePizza")) 
-                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][1], "tdClTamanhoPizza"))   
-                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][2], "tdClPrecoPizza"))   
-                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][3], "tdClPrecoPCmQ"))   
-                        pizzasAdLinha.appendChild(adicionaColuna(pizzas[i][4], "tdClDiferencaEmPorc"))
 
-                        return pizzasAdLinha;
+                    let linhaCorpo = document.createElement("tr");
 
+                    for (let j = 0; j < pizzas[i].length; j++) {
+
+                        let celula = document.createElement("td");
+                        celula.textContent = pizzas[i][j]
+                        linhaCorpo.appendChild(celula)
+                        
+                    }
+                    
+                    tbody.appendChild(linhaCorpo);
                 }
-            }
-
-            //Cria uma coluna (um td)
-            function adicionaColuna(dado, classe) {
-
-                let pizzasAdColuna = document.createElement("td")
-                pizzasAdColuna.textContent = dado
-                pizzasAdColuna.classList.add(classe)
-                
-                return pizzasAdColuna
 
             }
 
