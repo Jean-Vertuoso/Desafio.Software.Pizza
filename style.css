@@ -192,6 +192,33 @@ select{
 
 }
 
+.CaixaDigitacaoEscondida label{
+
+    font-weight: bold;
+    margin-right: 5px;
+    padding:5px;
+
+}
+
+.CaixaDigitacaoEscondida input{
+
+    font-weight: bold;
+    width: 100px;
+    height: 25px;
+    font-size: 15px;
+
+}
+
+.CaixaDigitacaoEscondida{
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    visibility: hidden;
+
+}
+
 .CaixaDigitacao label{
 
     font-weight: bold;
@@ -249,7 +276,7 @@ select{
     width: 320px;
     height: 25px;
     font-size: 15px;
-    margin-top: 50px;
+    margin-top: 30px;
     text-align: center;
 
 }

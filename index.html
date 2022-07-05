@@ -44,7 +44,9 @@
                                 <input
                                     id="idRedonda"
                                     type="radio"
-                                    name="nmFormaPizza">
+                                    name="nmFormaPizza"
+                                    onclick="mudarLabelsECaixas()"
+                                    checked>
                             </div>
     
                             <div class="PizzaRetangular">
@@ -52,29 +54,10 @@
                                 <input
                                     id="idRetOuQuad"
                                     type="radio"
-                                    name="nmFormaPizza">
+                                    name="nmFormaPizza"
+                                    onclick="mudarLabelsECaixas()">
                             </div>
     
-                        </div>   
-
-                        <div class="CaixaDigitacao">
-
-                            <label for="idTamanho">Informe o diâmetro da pizza (em centímetros)</label>
-                            <input
-                                id="idTamanho"
-                                type="number"
-                                name="nmTamanho">
-                            
-                        </div>
-
-                        <div class="CaixaDigitacao">
-
-                            <label for="idTamanho">Informe o diâmetro da pizza (em centímetros)</label>
-                            <input
-                                id="idTamanho"
-                                type="number"
-                                name="nmTamanho">
-                            
                         </div>
 
                         <div class="CaixaDigitacao">
@@ -85,6 +68,26 @@
                                 type="number"
                                 name="nmPreco">
 
+                        </div>
+
+                        <div class="CaixaDigitacao">
+
+                            <label for="idDiaOuBase" id="idLbDiaOuBase">Informe o diâmetro da pizza (em centímetros)</label>
+                            <input
+                                id="idDiaOuBase"
+                                type="number"
+                                name="nmTamanho">
+                            
+                        </div>
+
+                        <div class="CaixaDigitacaoEscondida">
+
+                            <label for="idAltura" id="idLbAltura">Informe a altura da pizza (em centímetros)</label>
+                            <input
+                                id="idAltura"
+                                type="number"
+                                name="nnn">
+                            
                         </div>
 
                         <div class="CaixaDeStatus">
@@ -179,7 +182,7 @@
 
             botaoMostrar.onclick = function(){
 
-                adicionaLinha()
+                adicionaLinha();
 
             }
 
@@ -192,7 +195,7 @@
 
                 var pizza = [];
 
-                calcularPrecoPCm2(precoPCm2);
+                    calcularPrecoPCm2(precoPCm2);
 
                     pizza[0] = formulario.nmNomePizza.value;
                     pizza[1] = formulario.nmTamanho.value;
@@ -230,7 +233,8 @@
             function consistirTela(){
 
                 let nome = document.getElementById("idNomePizza").value;
-                let tamanho = document.getElementById("idTamanho").value;
+                let diaOuBase = document.getElementById("idDiaOuBase").value;
+                let altura = document.getElementById("idAltura").value;
                 let preco = Number(document.getElementById("idPreco").value);
 
                 if (nome == "" || nome == " ") {
@@ -242,14 +246,23 @@
 
                 }
 
-                if (tamanho == "" || tamanho == " ") {
+                if (diaOuBase == "" || diaOuBase == " ") {
 
-                    aviso.value = "Preenchimento inválido: Campo tamanho";
+                    aviso.value = "Preenchimento inválido: Campo diâmetro ou base";
                     aviso.classList.add("alerta");
-                    document.getElementById("idTamanho").focus();
+                    document.getElementById("idDiaOuBase").focus();
                     return false;
 
                 }
+
+                //if (altura == "" || altura == " ") {
+
+                   // aviso.value = "Preenchimento inválido: Campo altura";
+                   // aviso.classList.add("alerta");
+                   // document.getElementById("idAltura").focus();
+                   // return false;
+
+                //}
 
                 if (preco == "" || preco == " ") {
 
@@ -269,27 +282,51 @@
 
             function calcularPrecoPCm2(){
 
-                let raio = 0;
-                let diametro = Number(document.getElementById("idTamanho").value);
-                let area = 0;
+                let redonda = document.getElementById("idRedonda").checked;
+                let quadOuRet = document.getElementById("idRetOuQuad").checked;
+                let diaOuBase = Number(document.getElementById("idDiaOuBase").value);
+                let altura = Number(document.getElementById("idAltura").value);
                 let preco = Number(document.getElementById("idPreco").value);
+                let area = 0;
+                let raio = 0;
 
-                raio = diametro / 2;
+                if (redonda){
 
-                area = Math.PI * (raio ** 2);
+                    raio = diaOuBase / 2;
 
-                precoPCm2 = preco / area;
+                    area = Math.PI * (raio ** 2);
+
+                    precoPCm2 = preco / area;
+
+                } else {
+
+                    area = diaOuBase * altura;
+
+                    precoPCm2 = preco / area;
+
+                }
 
             }
             //---------------------------------------------------------- \\ Função para calcular preço por tamanho //-----------------=----------------------------------------\\
 
             function mudarLabelsECaixas(){
 
-                let 
+                let redonda = document.getElementById("idRedonda").checked;
+                let quadOuRet = document.getElementById("idRetOuQuad").checked;                
+                let caixaVisivel = document.querySelector(".CaixaDigitacaoEscondida");
+                
+                if (redonda){
+
+                    caixaVisivel.style.visibility = "hidden";
+                    document.querySelector("#idLbDiaOuBase").innerText = "Informe o diâmetro da pizza (em centímetros)";
+
+                } else {
+
+                    caixaVisivel.style.visibility = "visible";
+                    document.querySelector("#idLbDiaOuBase").innerText = "Informe o tamanho da base da pizza (em centímetros)";
 
 
-
-
+                }
 
             }
 
@@ -319,7 +356,7 @@
 
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
-            //Cria uma linha (um tr)
+
             function adicionaLinha(){
                 
                 let tabela = document.getElementById("tbIdPizzas");
