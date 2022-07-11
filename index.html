@@ -45,7 +45,6 @@
                                     id="idRedonda"
                                     type="radio"
                                     name="nmFormaPizza"
-                                    onclick="mudarLabelsECaixas()"
                                     checked>
                             </div>
     
@@ -54,8 +53,7 @@
                                 <input
                                     id="idRetOuQuad"
                                     type="radio"
-                                    name="nmFormaPizza"
-                                    onclick="mudarLabelsECaixas()">
+                                    name="nmFormaPizza">
                             </div>
     
                         </div>
@@ -76,7 +74,7 @@
                             <input
                                 id="idDiaOuBase"
                                 type="number"
-                                name="nmTamanho">
+                                name="nmTamanho1">
                             
                         </div>
 
@@ -86,7 +84,7 @@
                             <input
                                 id="idAltura"
                                 type="number"
-                                name="nnn">
+                                name="nmTamanho2">
                             
                         </div>
 
@@ -158,10 +156,12 @@
             var formulario = document.querySelector("#idInfosFormulario")
             var preco = Number(document.getElementById("idPreco").value);
             var precoPCm2, raio, area = 0;
-
-            //------------------------------------------------------------ \\ Função para inicializar o programa // --------------------------------------------------------\\
-
-            iniciar();
+            const rdRedonda = document.getElementById("idRedonda");
+            const rdQuadOuRet = document.getElementById("idRetOuQuad");
+            const caixaVisivel = document.querySelector(".CaixaDigitacaoEscondida");
+            var botaoGuardar = document.getElementById("idBotaoGuardar");
+            var botaoMostrar = document.getElementById("idMostrarResultado");
+            var aviso = document.getElementById("idStatus");
 
             //----------------------------------------------------- \\ Funções para chamar os eventos de click dos botões // -------------------------------------------------\\
 
@@ -186,46 +186,50 @@
 
             }
 
-
             //--------------------------------------------------------------- \\ Funções para cadastrar informações // ------------------------------------------------------\\
-
-            //Extraindo dados do Formulário através do name
 
             function pesquisarPizza(pizza) {
 
                 var pizza = [];
 
-                    calcularPrecoPCm2(precoPCm2);
+                calcularPrecoPCm2(precoPCm2);
+                console.log("1"+ precoPCm2)
+
+                if(rdRedonda){
 
                     pizza[0] = formulario.nmNomePizza.value;
-                    pizza[1] = formulario.nmTamanho.value;
-                    pizza[2] = formulario.nmPreco.value;
-                    pizza[3] = Number(precoPCm2.toFixed(2));
-                    pizza[4] = 0;
+                    pizza[1] = formulario.nmTamanho1.value;
+                    pizza[2] = formulario.nmTamanho2.value;
+                    pizza[3] = formulario.nmPreco.value;
+                    pizza[4] = Number(precoPCm2.toFixed(2));
+                    pizza[5] = ;
+
+                    pizzas.push(pizza);                    
+                    console.log(pizzas)
+
+                } else {
+
+                    pizza[0] = formulario.nmNomePizza.value;
+                    pizza[1] = formulario.nmTamanho1.value;
+                    pizza[2] = formulario.nmTamanho2.value;
+                    pizza[3] = formulario.nmPreco.value;
+                    pizza[4] = Number(precoPCm2.toFixed(2));vc
+                    pizza[5] = 0;
 
                     pizzas.push(pizza);
-
+                    console.log(pizzas)
+                }
             }
 
             //--------------------------------------------------- \\ Funções de controle de labels e caixas de digitação // -------------------------------------------------\\
 
             function travarCaixas(){
 
-                document.getElementById("idBotaoGuardar").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
-                document.getElementById("idNomePizza").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
-                document.getElementById("idTamanho").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
-                document.getElementById("idPreco").disabled = true; //Desativa o botão de guardar, quando forem guardados 30 números na array.
+                document.getElementById("idBotaoGuardar").disabled = true;
+                document.getElementById("idNomePizza").disabled = true;
+                document.getElementById("idTamanho").disabled = true;
+                document.getElementById("idPreco").disabled = true;
                 
-            }
-
-            //------------------------------------------------------------- \\ Função rotina para inicialização // ---------------------------------------------------------\\
-
-            function iniciar(){
-
-                botaoGuardar = document.getElementById("idBotaoGuardar");
-                botaoMostrar = document.getElementById("idMostrarResultado");
-                aviso = document.getElementById("idStatus");
-
             }
 
             //--------------------------------------------------------- \\ Função para verificar valores inseridos // ---------------------------------------------------------\\
@@ -282,26 +286,24 @@
 
             function calcularPrecoPCm2(){
 
-                let redonda = document.getElementById("idRedonda").checked;
-                let quadOuRet = document.getElementById("idRetOuQuad").checked;
                 let diaOuBase = Number(document.getElementById("idDiaOuBase").value);
                 let altura = Number(document.getElementById("idAltura").value);
                 let preco = Number(document.getElementById("idPreco").value);
                 let area = 0;
                 let raio = 0;
 
-                if (redonda){
+                if (rdRedonda){
 
                     raio = diaOuBase / 2;
-
+                    console.log(raio)
                     area = Math.PI * (raio ** 2);
-
+                    console.log(area)
                     precoPCm2 = preco / area;
+                    console.log(precoPCm2)
 
                 } else {
 
                     area = diaOuBase * altura;
-
                     precoPCm2 = preco / area;
 
                 }
@@ -309,24 +311,17 @@
             }
             //---------------------------------------------------------- \\ Função para calcular preço por tamanho //-----------------=----------------------------------------\\
 
-            function mudarLabelsECaixas(){
+            rdRedonda.onclick = function(){
 
-                let redonda = document.getElementById("idRedonda").checked;
-                let quadOuRet = document.getElementById("idRetOuQuad").checked;                
-                let caixaVisivel = document.querySelector(".CaixaDigitacaoEscondida");
-                
-                if (redonda){
+                caixaVisivel.style.visibility = "hidden";
+                document.querySelector("#idLbDiaOuBase").innerText = "Informe o diâmetro da pizza (em centímetros)";
 
-                    caixaVisivel.style.visibility = "hidden";
-                    document.querySelector("#idLbDiaOuBase").innerText = "Informe o diâmetro da pizza (em centímetros)";
+            }
 
-                } else {
+            rdQuadOuRet.onclick = function(){
 
-                    caixaVisivel.style.visibility = "visible";
-                    document.querySelector("#idLbDiaOuBase").innerText = "Informe o tamanho da base da pizza (em centímetros)";
-
-
-                }
+                caixaVisivel.style.visibility = "visible";
+                document.querySelector("#idLbDiaOuBase").innerText = "Informe o tamanho da base da pizza (em centímetros)";
 
             }
 
@@ -337,11 +332,11 @@
 
                 pizzas.sort(function(a, b){
 
-                    if (a[3] > b[3]) {
+                    if (a[4] > b[4]) {
                         return 1
                     }
 
-                    if (a[3] < b[3]) {
+                    if (a[4] < b[4]) {
                         return -1
                     }
 
@@ -353,7 +348,16 @@
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
 
+            function calcularPorcent(){
 
+                for (let i = 0; i < pizzas.length; i++) {
+                    for (let index = 4; index < pizza.length; index++) {
+
+                        
+                    }
+                }
+
+            }
 
             //---------------------------------------------------- \\ Funções para adicionar linhas e colunas // --------------------------------------------------------------\\
 
@@ -364,7 +368,7 @@
                 let thead = document.createElement("thead");
                 let tbody = document.createElement("tbody");
 
-                let cabecalho = ["Nome", "Tamanho", "Preço", "Preço p/cm²", "Diferença%"]
+                let cabecalho = ["Nome", "Diâmetro/Base", "Altura", "Preço", "Preço p/cm²", "Diferença%"]
                 let linhaCabecalho = document.createElement("tr");
 
                 for (let i = 0; i < cabecalho.length; i++) {
